@@ -2,24 +2,24 @@
 
 # Cargo package manager [![Build Status](https://travis-ci.org/demarey/cargo.svg?branch=master)](https://travis-ci.org/demarey/cargo)
 
-Cargo is a lightweitgh package manager for Smalltalk.
+Cargo is a lightweitgh package manager for Pharo.
 
 ## What are the motivations behind Cargo?
 * Dependencies expressed at the package level. We want that each package describes its own dependencies in a synthetic way.
-* Dependencies as first-class objects, so that tools can use them to offer added value
-* Better handling of platform-specific packages. In big project with a lot of dependencies that could be run on various platforms (e.g. Seaside), the description of platform-specific dependendies leads to wide specification, hard to maintain. Cargo tries to solve this problem by providing a low-coupling dependency to manage this kind of dependencies.
-* Support update strategies through the use of semantic versionning
-* Provide a central place to publis package versions and provide a web site on top of it to query on available packages (something similar to https://packagist.org/).
+* Dependencies as first-class objects, so that tools can use them to offer added value.
+* Better handling of platform-specific packages. In big projects with a lot of dependencies that could be run on various platforms (e.g. Seaside), the description of platform-specific dependendies leads to large specifications that are hard to maintain. Cargo tries to solve this problem by providing a low-coupling dependency to manage this kind of dependencies.
+* Support update strategies through the use of semantic versionning.
+* Provide a central place to publish package versions and provide a web site on top of it to query on available packages (something similar to https://packagist.org/).
 
 ## Cargo big picture
 ![Cargo big picture](/doc/cargo-overview.png)
 
 ## Cargo basics
-Cargo is a package manager. It automates the process of installing, upgrading and removing Smalltalk programs and libraries for a Smalltalk image in a consistent manner. A package manager deals with packages, distributions of software. Packages contain metadata, such as the software's name, description of its purpose, version number, vendor,  and a list of dependencies necessary for the software to run properly.
+Cargo is a package manager. It automates the process of installing, upgrading and removing Pharo programs and libraries for a Pharo image in a consistent manner. A package manager deals with packages, distributions of software. Packages contain metadata, such as the software's name, description of its purpose, version number, vendor,  and a list of dependencies necessary for the software to run properly.
 ### Packages
 Packages are the unit of distribution of a software. It is the minimal artefact you can load. Cargo defines 3 kind of packages:
 * **package unit**: it represents a piece of code in a specific version. It has dependencies.
-* **package assembly**: it represents a set of package units or package assemblies. It is useful to group a coherent set of packages all together. Assemblies do not have dependencies.
+* **package assembly**: it represents a set of package units or package assemblies. It is useful to group a coherent set of packages together. Assemblies do not have dependencies.
 * **virtual package**: they are there to manage smoothly platform-specific packages. A virtual package has only a name. Some concrete packages (units) will provide them, some others will require them. They offer low-coupling in dependencies description but have to be used carefully (no specified contract, just rely on the package name). This concept comes from the [Debian distribution] (http://www.linuxtopia.org/online_books/linux_system_administration/debian_linux_guides/debian_linux_faq/ch-pkg_basics.en_007.html).
 ![Cargo packages](/doc/cargo-packages.png)
 
@@ -33,7 +33,7 @@ You can ask Cargo to load one or many packages. Cargo will select adequate packa
 Cargo load instructions are serializable so that they can be used for off-line loading for example.
 
 ### Updating packages
-Cargo relies on [semantic versioning](http://semver.org/) to determine compatibility between versions of a package. It implies that **only a major version change could break the backward-compatibility** of a package. In other words, a patch version update (e.g. 1.2.0 => 1.2.1) or a minor version update (e.g. 1.2.1 => 1.3) should be compitable with packages working with the previous version. So, it is important that developers update the version number of a package with care by asking himself some questions: 
+Cargo relies on [semantic versioning](http://semver.org/) to determine compatibility between versions of a package. It implies that **only a major version change could break the backward-compatibility** of a package. In other words, a patch version update (e.g. 1.2.0 => 1.2.1) or a minor version update (e.g. 1.2.1 => 1.3) should be compatible with packages working with the previous version. So, it is important that developers update the version number of a package with care by asking himself some questions: 
  * did I make incompatible API changes? If yes, a major version increment is needed.
  * did I introduce new functionalities without breaking backward-compatibility?. If yes, a minor version increment is needed.
  * did I fix a bug in a backward-compatible way? If yes, a patch version increment is needed.
@@ -57,7 +57,7 @@ Cargo new
 	package: 'MyProject@1.3';
 	install
 ```
-It will load into the image the package *MyProject* in version *1.3* and all its dependencies. To achieve that, Cargo computes the list of packages to load and determines the load order. This package list is called **Cargo load instructions**. You can get this list by Calling #loadInstructions as follows:
+It will load in the image the package *MyProject* in version *1.3* and all its dependencies. To achieve that, Cargo computes the list of packages to load and determines the load order. This package list is called **Cargo load instructions**. You can get this list by Calling #loadInstructions as follows:
 ```smalltalk
 loadInstructions := Cargo new 
 	package: 'MyProject@1.3';
@@ -76,7 +76,7 @@ Cargo new
 	package: 'MyProject';
 	fetch
 ```
-It will fetch packages into the unique instance of the MCCacheRepository. If you want to ftech packages into a specific folder, the use the *#fetchInto:* message.
+It will fetch packages in the unique instance of the MCCacheRepository. If you want to fetch packages into a specific folder, the use the *#fetchInto:* message.
 ```smalltalk
 Cargo new 
 	package: 'MyProject';
